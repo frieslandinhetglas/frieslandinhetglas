@@ -22,41 +22,39 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Icoon voor cider (appeltje)
+    // Cider (appel)
     var ciderIcon = L.icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/128/415/415733.png',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40]
-});
+      iconUrl: 'https://cdn-icons-png.flaticon.com/128/415/415733.png',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
+    });
 
-    // Icoon voor wijn (witte druiventros)
+    // Wijn (druiventros, Flaticon #2083698)
     var wineIcon = L.icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/128/616/616408.png',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40]
-});
+      iconUrl: 'https://cdn-icons-png.flaticon.com/128/2083/2083698.png',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
+    });
 
-    // Icoon voor bier (bierglas)
+    // Bier (bierglas, Flaticon #931949)
     var beerIcon = L.icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/128/1076/1076903.png',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40]
-});
+      iconUrl: 'https://cdn-icons-png.flaticon.com/128/931/931949.png',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
+    });
 
-    // Marker Dinckelaar Cider
+    // Markers
     L.marker([53.1885397, 5.8353242], {icon: ciderIcon})
       .addTo(map)
       .bindPopup("<b>Dinckelaar Cider</b><br>Ambachtelijke Friese cider.");
 
-    // Marker Wijngaard de Frysling
     L.marker([53.2504147, 6.1041247], {icon: wineIcon})
       .addTo(map)
       .bindPopup("<b>Wijngaard de Frysling</b><br>Friese wijnmakerij.");
 
-    // Marker Grutte Pier Brouwerij
     L.marker([53.2756458, 5.8407140], {icon: beerIcon})
       .addTo(map)
       .bindPopup("<b>Grutte Pier Brouwerij</b><br>Ambachtelijke Friese bierbrouwerij.");
