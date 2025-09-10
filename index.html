@@ -15,17 +15,51 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Kaart centreren op Friesland
-    var map = L.map('map').setView([53.2, 5.8], 9);
+    var map = L.map('map').setView([53.22, 5.9], 10);
 
     // OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Voorbeeldmarker
-    L.marker([53.2, 5.75])
+    // Icoon voor cider (appeltje)
+    var ciderIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/415/415733.png',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
+    });
+
+    // Icoon voor wijn (druif)
+    var wineIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/2910/2910764.png',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
+    });
+
+    // Icoon voor bier (pul)
+    var beerIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565247.png',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
+    });
+
+    // Marker Dinckelaar Cider
+    L.marker([53.1885397, 5.8353242], {icon: ciderIcon})
       .addTo(map)
-      .bindPopup("<b>Ciderbedrijf</b><br>Hier komt info over de producent.");
+      .bindPopup("<b>Dinckelaar Cider</b><br>Ambachtelijke Friese cider.");
+
+    // Marker Wijngaard de Frysling
+    L.marker([53.2504147, 6.1041247], {icon: wineIcon})
+      .addTo(map)
+      .bindPopup("<b>Wijngaard de Frysling</b><br>Friese wijnmakerij.");
+
+    // Marker Grutte Pier Brouwerij
+    L.marker([53.2756458, 5.8407140], {icon: beerIcon})
+      .addTo(map)
+      .bindPopup("<b>Grutte Pier Brouwerij</b><br>Ambachtelijke Friese bierbrouwerij.");
   </script>
 </body>
 </html>
