@@ -15,9 +15,9 @@
       height: 100%;
       width: 100%;
     }
-    /* Grotere en leesbare tekst in popups */
+    /* hier weer centrale styling voor alle popups */
     .leaflet-popup-content {
-      font-size: 1.5em;   /* ongeveer 24px */
+      font-size: 1.5em;
       line-height: 1.4;
     }
   </style>
@@ -27,8 +27,7 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Kaart centreren op Friesland
-    var map = L.map('map').setView([53.22, 5.9], 10);
+    var map = L.map('map');
 
     // OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -57,7 +56,7 @@
       popupAnchor: [0, -40]
     });
 
-    // Markers
+    // Markers (zonder inline style)
     L.marker([53.1885397, 5.8353242], {icon: ciderIcon})
       .addTo(map)
       .bindPopup(`
@@ -74,6 +73,13 @@
     L.marker([53.2756458, 5.8407140], {icon: beerIcon})
       .addTo(map)
       .bindPopup("<b>Grutte Pier Brouwerij</b><br>Ambachtelijke Friese bierbrouwerij.");
+
+    // Kaart centreren op de provincie Friesland
+    var frieslandBounds = [
+      [52.8, 5.2], // zuidwest
+      [53.6, 6.6]  // noordoost
+    ];
+    map.fitBounds(frieslandBounds);
   </script>
 </body>
 </html>
