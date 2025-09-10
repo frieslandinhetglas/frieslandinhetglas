@@ -15,21 +15,53 @@
       height: 100%;
       width: 100%;
     }
-    /* Grotere en leesbare tekst in popups */
-    .leaflet-popup-content {
+
+    /* Fullscreen overlay voor popups */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.95);
+      z-index: 1000;
+      display: none;
+      overflow-y: auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #overlay h2 {
+      margin-top: 0;
+    }
+    #overlay .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
       font-size: 1.5em;
-      line-height: 1.4;
+      cursor: pointer;
+    }
+    #overlay p {
+      line-height: 1.5;
+      font-size: 1.4em;
+      white-space: pre-line; /* behoud \n */
     }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
+  <!-- Overlay container -->
+  <div id="overlay">
+    <span class="close-btn">&times;</span>
+    <h2 id="overlay-title"></h2>
+    <p id="overlay-text"></p>
+  </div>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
+    // Leaflet kaart
     var map = L.map('map');
 
-    // OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -38,32 +70,37 @@
     var ciderIcon = L.icon({
       iconUrl: 'https://cdn-icons-png.flaticon.com/128/415/415733.png',
       iconSize: [40, 40],
-      iconAnchor: [20, 40],
-      popupAnchor: [0, -40]
+      iconAnchor: [20, 40]
     });
-
     var wineIcon = L.icon({
       iconUrl: 'https://cdn-icons-png.flaticon.com/128/2083/2083698.png',
       iconSize: [40, 40],
-      iconAnchor: [20, 40],
-      popupAnchor: [0, -40]
+      iconAnchor: [20, 40]
     });
-
     var beerIcon = L.icon({
       iconUrl: 'https://cdn-icons-png.flaticon.com/128/931/931949.png',
       iconSize: [40, 40],
-      iconAnchor: [20, 40],
-      popupAnchor: [0, -40]
+      iconAnchor: [20, 40]
     });
 
-    // Kaart centreren op de provincie Friesland
+    // Overlay elementen
+    var overlay = document.getElementById('overlay');
+    var overlayTitle = document.getElementById('overlay-title');
+    var overlayText = document.getElementById('overlay-text');
+    var closeBtn = document.querySelector('#overlay .close-btn');
+
+    closeBtn.onclick = function() {
+      overlay.style.display = 'none';
+    };
+
+    // Kaart zoom/bounds
     var frieslandBounds = [
-      [52.8, 5.2], // zuidwest
-      [53.6, 6.6]  // noordoost
+      [52.8, 5.2],
+      [53.6, 6.6]
     ];
     map.fitBounds(frieslandBounds);
 
-    // Markers uit JSON bestand
+    // JSON laden
     fetch('producenten.json')
       .then(response => response.json())
       .then(data => {
@@ -76,15 +113,15 @@
             default: icon = ciderIcon;
           }
 
-          // \n omzetten naar <br> voor correcte weergave
-          const popupContent = `<b>${p.naam}</b><br><br>${p.tekst.replace(/\n/g, '<br>')}`;
-
-          L.marker([p.lat, p.lng], {icon})
-            .addTo(map)
-            .bindPopup(popupContent);
+          // Marker toevoegen
+          L.marker([p.lat, p.lng], {icon}).addTo(map).on('click', function() {
+            overlayTitle.textContent = p.naam;
+            overlayText.textContent = p.tekst; // behoud \n
+            overlay.style.display = 'block';
+          });
         });
       })
-      .catch(error => console.error("Fout bij laden JSON:", error));
+      .catch(err => console.error(err));
   </script>
 </body>
 </html>
