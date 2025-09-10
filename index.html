@@ -3,14 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <title>Friesland in het Glas</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    body { margin:0; font-family: sans-serif; }
+    #map { height: 100vh; width: 100%; }
+  </style>
 </head>
 <body>
-  <h1>Friesland in het Glas</h1>
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="script.js"></script>
+  <script>
+    // Kaart centreren op Friesland
+    var map = L.map('map').setView([53.2, 5.8], 9);
+
+    // OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Voorbeeldmarker
+    L.marker([53.2, 5.75])
+      .addTo(map)
+      .bindPopup("<b>Ciderbedrijf</b><br>Hier komt info over de producent.");
+  </script>
 </body>
 </html>
