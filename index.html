@@ -115,9 +115,16 @@
 
           // Marker toevoegen
           L.marker([p.lat, p.lng], {icon}).addTo(map).on('click', function() {
-            overlayTitle.textContent = p.naam;
-            overlayText.textContent = p.tekst; // behoud \n
-            overlay.style.display = 'block';
+overlayTitle.textContent = p.naam;
+overlayText.innerHTML = `
+  ${p.tekst.replace(/\n/g,'<br>')}
+  ${p.contact ? `<br><strong>Contactpersoon:</strong> ${p.contact}` : ''}
+  ${p.adres ? `<br><strong>Adres:</strong> ${p.adres}, ${p.postcode || ''} ${p.plaats || ''}` : ''}
+  ${p.telefoon ? `<br><strong>Telefoon:</strong> ${p.telefoon}` : ''}
+  ${p.email ? `<br><strong>Email:</strong> <a href="mailto:${p.email}">${p.email}</a>` : ''}
+  ${p.website ? `<br><strong>Website:</strong> <a href="${p.website}" target="_blank">${p.website}</a>` : ''}
+`;
+overlay.style.display = 'block';
           });
         });
       })
