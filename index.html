@@ -76,9 +76,12 @@
             default: icon = ciderIcon;
           }
 
+          // \n omzetten naar <br> voor correcte weergave
+          const popupContent = `<b>${p.naam}</b><br><br>${p.tekst.replace(/\n/g, '<br>')}`;
+
           L.marker([p.lat, p.lng], {icon})
             .addTo(map)
-            .bindPopup(`<b>${p.naam}</b><br><br>${p.tekst}`);
+            .bindPopup(popupContent);
         });
       })
       .catch(error => console.error("Fout bij laden JSON:", error));
