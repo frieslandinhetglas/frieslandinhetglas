@@ -15,7 +15,7 @@
       height: 100%;
       width: 100%;
     }
-    /* hier weer centrale styling voor alle popups */
+    /* Grotere en leesbare tekst in popups */
     .leaflet-popup-content {
       font-size: 1.5em;
       line-height: 1.4;
@@ -56,30 +56,32 @@
       popupAnchor: [0, -40]
     });
 
-    // Markers (zonder inline style)
-    L.marker([53.1885397, 5.8353242], {icon: ciderIcon})
-      .addTo(map)
-      .bindPopup(`
-        <b>Dinckelaar – natuurcider uit Friesland</b><br><br>
-        Dinckelaar maakt pure cider van fruit uit Friesland en de omliggende provincies. Onze appels, peren en kweeperen komen uit kleinschalige boomgaarden en particuliere tuinen waar niet wordt gespoten of bemest – alleen de kracht van de natuur.<br><br>
-        In Hemelum en Leeuwarden laten we de ciders op hun eigen tempo vergisten. Ze rijpen rustig, zonder kunstgrepen, en worden niet gefilterd. Zo blijft het karakter van het fruit volledig behouden.<br><br>
-        De naam Maurits van Dinckelaar – kortweg Dinckelaar – verwijst naar een voorvader die rond 1685 naar Leeuwarden kwam om te dienen in de Friese Garde. Met onze ciders zetten we die geschiedenis voort, op een nieuwe, natuurlijke manier.
-      `);
-
-    L.marker([53.2504147, 6.1041247], {icon: wineIcon})
-      .addTo(map)
-      .bindPopup("<b>Wijngaard de Frysling</b><br>Friese wijnmakerij.");
-
-    L.marker([53.2756458, 5.8407140], {icon: beerIcon})
-      .addTo(map)
-      .bindPopup("<b>Grutte Pier Brouwerij</b><br>Ambachtelijke Friese bierbrouwerij.");
-
     // Kaart centreren op de provincie Friesland
     var frieslandBounds = [
       [52.8, 5.2], // zuidwest
       [53.6, 6.6]  // noordoost
     ];
     map.fitBounds(frieslandBounds);
+
+    // Markers uit JSON bestand
+    fetch('producenten.json')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(p => {
+          let icon;
+          switch(p.type) {
+            case 'cider': icon = ciderIcon; break;
+            case 'wijn': icon = wineIcon; break;
+            case 'bier': icon = beerIcon; break;
+            default: icon = ciderIcon;
+          }
+
+          L.marker([p.lat, p.lng], {icon})
+            .addTo(map)
+            .bindPopup(`<b>${p.naam}</b><br><br>${p.tekst}`);
+        });
+      })
+      .catch(error => console.error("Fout bij laden JSON:", error));
   </script>
 </body>
 </html>
